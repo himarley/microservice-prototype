@@ -1,0 +1,13 @@
+{
+  "name": "microservices-demo",
+  "private": true,
+  "workspaces": [
+    "src/lib/*",
+    "src/services/*"
+  ],
+  "devDependencies": {
+    "eslint": "^7.26.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "serverless-localstack": "^0.4.32"
+  }
+}

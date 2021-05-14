@@ -1,0 +1,1 @@
+module.exports.isLocal = () => process.env.STAGE === 'local'

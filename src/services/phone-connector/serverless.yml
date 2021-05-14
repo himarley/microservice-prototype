@@ -1,0 +1,43 @@
+service: phone-connector
+
+frameworkVersion: ">=1.1.0"
+
+plugins:
+  - serverless-localstack
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  # TODO: handle deployment bucket in local
+  # deploymentBucket: ${ssm:s3-serverless-deployment}
+  lambdaHashingVersion: 20201221
+  environment:
+    STAGE: ${self:custom.stage}
+
+custom:
+  stage: ${opt:stage, 'dev'}
+  localstack:
+    host: http://localhost  # optional - LocalStack host to connect to
+    edgePort: 4566  # optional - LocalStack edge port to connect to
+    stages:
+      - local
+
+functions:
+  send-sms:
+    handler: src/handler.sendSMS
+  test:
+    handler: src/handler.test1
+
+resources:
+  Resources:
+    phonesDB:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: phones
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: number
+            AttributeType: S
+        KeySchema:
+          - AttributeName: number
+            KeyType: HASH

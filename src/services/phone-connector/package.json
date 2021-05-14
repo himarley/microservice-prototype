@@ -1,0 +1,20 @@
+{
+  "name": "@himarley/phone-connector",
+  "version": "0.0.1",
+  "description": "service which contains interfaces for phone communication (SMS, Voice, Ect...)",
+  "main": "index.js",
+  "scripts": {
+    "build": "serverless webpack --stage local",
+    "deploy": "serverless deploy --stage local",
+    "watch": "nodemon -w src -e '.*' -x 'npm run build'",
+    "start": "npm run deploy && npm run watch"
+  },
+  "author": "Hi Marley Engineering",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  },
+  "dependencies": {
+    "@himarley/common": "file:../../lib/common"
+  }
+}

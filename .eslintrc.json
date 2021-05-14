@@ -1,0 +1,22 @@
+{
+  "env": {
+    "jest/globals": true
+  },
+  "extends": [
+    "airbnb",
+    "plugin:promise/recommended"
+  ],
+  "plugins": [
+    "jest",
+    "promise"
+  ],
+  "rules": {
+    "semi": "off"
+  },
+  "ignorePatterns": [
+    "bin",
+    "coverage",
+    "node_modules",
+    "src/mockData"
+  ]
+}

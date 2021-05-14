@@ -1,0 +1,14 @@
+{
+  "name": "@himarley/common",
+  "version": "0.0.1",
+  "description": "Common components to be used across services",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Hi Marley Engineering",
+  "license": "ISC",
+  "devDependencies": {
+    "aws-sdk": "^2.901.0"
+  }
+}
