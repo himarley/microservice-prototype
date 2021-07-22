@@ -1,10 +1,12 @@
 # microservice-prototype
 
-Project to build a proof of concept for a local development environment.  Integrates localstack and serverless so that developers can seamlessly 
+Project to build a proof of concept for a local development environment.  Integrates localstack and serverless so that developers can seamlessly deploy services to AWS or run locally via localstack.
 
-- devops - full local environment with ability to seed databases
--
+Tools in use:
 
+- serverless 2.x
+- serverless-localstack to enable simple integration: https://github.com/localstack/serverless-localstack
+- localstack: 
 ## setup/ test
 
 1. to start local stack: `cd src/resources/local-stack; docker-compose up`
@@ -19,3 +21,9 @@ Project to build a proof of concept for a local development environment.  Integr
 note: you can actually deploy these stacks to AWS by removing `stage --local` from the deploy and invoke commands above
 ## TODO
 
+- [explore mount feature - for hot reload](https://github.com/localstack/serverless-localstack#mounting-lambda-code-for-better-performance)
+- [serverless-webpack integration](https://github.com/localstack/serverless-localstack#a-note-on-using-webpack)
+- script wrappers?
+- resource utilization (how many tables, how many lambdas?)
+- prove out all required access patterns (lambda -> lambda, lambda -> sqs -> lambda, lambda -> sns -> sqs -> lambda)
+- more research about how to managed mixed resources (depends on the answer to resource utilization)
