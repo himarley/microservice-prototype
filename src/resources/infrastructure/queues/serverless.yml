@@ -1,0 +1,61 @@
+service: queues
+frameworkVersion: ">=2.40.0"
+
+plugins:
+  - serverless-localstack
+
+custom:
+  stage: ${opt:stage, 'dev'}
+  localstack:
+    stages:
+      - local
+
+disabledDeprecations:
+  - NEW_VARIABLES_RESOLVER
+
+provider:
+  name: aws
+  # TOOD: figure out S3 deployment
+  # deploymentBucket: ${ssm:s3-serverless-deployment}
+  stackTags:
+      COMMIT_SHA: ${env:COMMIT_SHA, 'NO-SHA'}
+
+resources:
+  Resources:
+    smsOutboundQueue:
+      Type: AWS::SQS::Queue
+      Properties:
+        ContentBasedDeduplication: true
+        # DelaySeconds: Integer
+        FifoQueue: true
+        # KmsDataKeyReusePeriodSeconds: Integer
+        # KmsMasterKeyId: String
+        # MaximumMessageSize: Integer
+        # MessageRetentionPeriod: Integer
+        # QueueName: String
+        ReceiveMessageWaitTimeSeconds: 0
+        RedrivePolicy:
+          deadLetterTargetArn: !GetAtt errorHandlingQueue.Arn
+          maxReceiveCount: 1
+        #Tags: 
+        # - Tag
+        # VisibilityTimeout: Integer
+    ssmSmsOutboundQueue:
+      Type: AWS::SSM::Parameter
+      Properties:
+        Name: sms-outbound-queue-arn
+        Type: String
+        Value: !GetAtt smsOutboundQueue.Arn
+        Description: the ARN of the SQS queue used for outbound messages
+    ssmSmsOutboundQueueName:
+      Type: AWS::SSM::Parameter
+      Properties:
+        Name: sms-outbound-queue-name
+        Type: String
+        Value: !GetAtt smsOutboundQueue.QueueName
+        Description: the name of the SQS queue used for outbound messages
+    # GLOBAL SQS QUEUE FOR FAILED MESSAGES
+    errorHandlingQueue:
+      Type: AWS::SQS::Queue
+      Properties:
+        FifoQueue: true

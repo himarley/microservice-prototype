@@ -18,7 +18,7 @@ const {isLocal} = require('../../helpers')
 const createCustomClient = () => {
   const useLocal = isLocal()
   if(useLocal) {
-    const host = process.env.LOCALSTACK_HOSTNAME || localhost
+    const host = process.env.LOCALSTACK_HOSTNAME || 'localhost'
     const port = process.env.EDGE_PORT || 4566
     config = {
       endpoint: `http://${host}:${port}`,

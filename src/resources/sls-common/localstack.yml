@@ -1,0 +1,5 @@
+host: http://localhost  # optional - LocalStack host to connect to
+edgePort: 4566  # optional - LocalStack edge port to connect to
+debug: true
+stages:
+  - local

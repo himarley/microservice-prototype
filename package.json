@@ -9,5 +9,8 @@
     "eslint": "^7.26.0",
     "eslint-config-airbnb": "^18.2.1",
     "serverless-localstack": "^0.4.32"
+  },
+  "dependencies": {
+    "serverless": "^2.52.1"
   }
 }

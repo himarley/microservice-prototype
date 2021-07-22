@@ -2,6 +2,8 @@ service: phone-connector
 
 frameworkVersion: ">=1.1.0"
 
+projectDir: ../../
+
 plugins:
   - serverless-localstack
 
@@ -10,15 +12,13 @@ provider:
   runtime: nodejs14.x
   # TODO: handle deployment bucket in local
   # deploymentBucket: ${ssm:s3-serverless-deployment}
+  stage: ${opt:stage, 'dev'}
   lambdaHashingVersion: 20201221
   environment:
-    STAGE: ${self:custom.stage}
+    STAGE: ${self:provider.stage}
 
 custom:
-  stage: ${opt:stage, 'dev'}
   localstack:
-    host: http://localhost  # optional - LocalStack host to connect to
-    edgePort: 4566  # optional - LocalStack edge port to connect to
     stages:
       - local
 
