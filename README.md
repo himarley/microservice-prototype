@@ -27,3 +27,4 @@ note: you can actually deploy these stacks to AWS by removing `stage --local` fr
 - resource utilization (how many tables, how many lambdas?)
 - prove out all required access patterns (lambda -> lambda, lambda -> sqs -> lambda, lambda -> sns -> sqs -> lambda)
 - more research about how to managed mixed resources (depends on the answer to resource utilization)
+- limit docker services (lambda, SNS, SQS, dynamo)
