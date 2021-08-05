@@ -6,27 +6,38 @@ projectDir: ../../
 
 plugins:
   - serverless-localstack
+  - serverless-webpack
 
 provider:
   name: aws
   runtime: nodejs14.x
   # TODO: handle deployment bucket in local
   # deploymentBucket: ${ssm:s3-serverless-deployment}
-  stage: ${opt:stage, 'dev'}
+  stage: ${opt:stage, 'local'}
   lambdaHashingVersion: 20201221
   environment:
     STAGE: ${self:provider.stage}
 
 custom:
+  webpack:
+    webpackConfig: webpack.config.js
+    includeModules: true ## Node modules configuration for packaging - needed by hot reloading
+    keepOutputDirectory: true ## Output data directory (.webpack) and content must be retained - needed by hot reloading
   localstack:
+    debug: true
     stages:
       - local
+    lambda:
+      mountCode: true
+    autostart: true
 
 functions:
   send-sms:
     handler: src/handler.sendSMS
   test:
     handler: src/handler.test1
+  hello:
+    handler: src/handler.hello
 
 resources:
   Resources:
