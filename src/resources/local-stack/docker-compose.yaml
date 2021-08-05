@@ -10,10 +10,11 @@ services:
       - "${PORT_WEB_UI-8085}:${PORT_WEB_UI-8085}"
     environment:
       - SERVICES=${SERVICES- }
-      - DEBUG=${DEBUG- }
+      - DEBUG=1
       - DATA_DIR=${DATA_DIR- }
       - PORT_WEB_UI=${PORT_WEB_UI- }
       - LAMBDA_EXECUTOR=docker
+      - LAMBDA_REMOTE_DOCKER=false
       - KINESIS_ERROR_PROBABILITY=${KINESIS_ERROR_PROBABILITY- }
       - DOCKER_HOST=unix:///var/run/docker.sock
     volumes:

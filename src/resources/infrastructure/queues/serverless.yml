@@ -5,7 +5,7 @@ plugins:
   - serverless-localstack
 
 custom:
-  stage: ${opt:stage, 'dev'}
+  stage: ${opt:stage, 'local'}
   localstack:
     stages:
       - local
@@ -18,7 +18,7 @@ provider:
   # TOOD: figure out S3 deployment
   # deploymentBucket: ${ssm:s3-serverless-deployment}
   stackTags:
-      COMMIT_SHA: ${env:COMMIT_SHA, 'NO-SHA'}
+    COMMIT_SHA: ${env:COMMIT_SHA, 'NO-SHA'}
 
 resources:
   Resources:
@@ -37,7 +37,7 @@ resources:
         RedrivePolicy:
           deadLetterTargetArn: !GetAtt errorHandlingQueue.Arn
           maxReceiveCount: 1
-        #Tags: 
+        #Tags:
         # - Tag
         # VisibilityTimeout: Integer
     ssmSmsOutboundQueue:

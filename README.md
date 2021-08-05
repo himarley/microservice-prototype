@@ -18,11 +18,15 @@ Tools in use:
    `cd src/services/phone-connector; npm ci; sls deploy --stage local`
 4. to invoke an example lambda function that invokes another locally: `cd src/services/phone-connector; npx sls invoke -f send-sms`
 
+## Hot reloading
+
+1. to deploy and use hot reloading (nodemon) locally: `cd src/services/phone-connector;npm run start`
+
+**NOTE:** needs `setup steps` prior using hot reloading
+
 note: you can actually deploy these stacks to AWS by removing `stage --local` from the deploy and invoke commands above
 ## TODO
 
-- [explore mount feature - for hot reload](https://github.com/localstack/serverless-localstack#mounting-lambda-code-for-better-performance)
-- [serverless-webpack integration](https://github.com/localstack/serverless-localstack#a-note-on-using-webpack)
 - script wrappers?
 - resource utilization (how many tables, how many lambdas?)
 - prove out all required access patterns (lambda -> lambda, lambda -> sqs -> lambda, lambda -> sns -> sqs -> lambda)

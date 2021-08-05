@@ -15,6 +15,8 @@
     "nodemon": "^2.0.7"
   },
   "dependencies": {
-    "@himarley/common": "file:../../lib/common"
+    "@himarley/common": "file:../../lib/common",
+    "serverless-localstack": "^0.4.33",
+    "serverless-webpack": "^5.5.1"
   }
 }
