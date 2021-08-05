@@ -20,7 +20,7 @@ Tools in use:
 
 ## Hot reloading
 
-1. to deploy and run hot reloading (nodemon) locally: `cd src/services/phone-connector;npm run start`
+1. to deploy and use hot reloading (nodemon) locally: `cd src/services/phone-connector;npm run start`
 
 
 note: you can actually deploy these stacks to AWS by removing `stage --local` from the deploy and invoke commands above
