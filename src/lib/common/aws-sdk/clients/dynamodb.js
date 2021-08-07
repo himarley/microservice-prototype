@@ -1,8 +1,8 @@
 const DynamoDB = require('aws-sdk/clients/dynamodb');
 const {isLocal} = require('../../helpers');
 
-const createConfig = ({isLocal}) => {
-  const useLocal = isLocal || isLocal()
+const createConfig = ({localOverride}) => {
+  const useLocal = localOverride || isLocal()
   if(useLocal) {
     const host = process.env.LOCALSTACK_HOSTNAME || 'localhost'
     const port = process.env.EDGE_PORT || 4566
@@ -16,13 +16,13 @@ const createConfig = ({isLocal}) => {
 /**
  * Creates a custom aws lambda client
  */
- const createCustomClient = ({isLocal}) => {
-  const config = createConfig({isLocal})
+ const createCustomClient = ({localOverride}) => {
+  const config = createConfig({localOverride})
   return new DynamoDB(config)
 }
 
-const createDocumentClient = ({isLocal}) => {
-  const config = createConfig({isLocal})
+const createDocumentClient = ({localOverride}) => {
+  const config = createConfig({localOverride})
   return new DynamoDB.DocumentClient(config)
 }
 

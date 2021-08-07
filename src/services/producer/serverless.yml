@@ -1,0 +1,46 @@
+service: lsdemo-producer
+
+frameworkVersion: ">=2.4.0"
+
+projectDir: ../../
+
+plugins:
+  - serverless-localstack
+  - serverless-webpack
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  # TODO: handle deployment bucket in local
+  # deploymentBucket: ${ssm:s3-serverless-deployment}
+  stage: ${opt:stage, 'local'}
+  lambdaHashingVersion: 20201221
+  environment:
+    STAGE: ${self:provider.stage}
+    MY_QUEUE_URL: ${ssm:lsdemo-my-sqs-queue-name}
+    MY_TOPIC_ARN: ${ssm:lsdemo-my-sns-topic-arn}
+
+custom:
+  webpack:
+    webpackConfig: webpack.config.js
+    includeModules: true ## Node modules configuration for packaging - needed by hot reloading
+    keepOutputDirectory: true ## Output data directory (.webpack) and content must be retained - needed by hot reloading
+  localstack:
+    stages:
+      - local
+    lambda:
+      mountCode: true
+
+functions:
+  direct:
+    handler: src/handler.direct
+      # TODO: test invoke, with URL pattern: ENDPOINT=http://localhost:4566/restapis/${API_ID}/${STAGE}/_user_request_/direct-invoke
+    events:
+      - http:
+          path: direct-invoke
+          method: post
+          cors: true
+  queue:
+    handler: src/handler.queue
+  topic:
+    handler: src/handler.topic

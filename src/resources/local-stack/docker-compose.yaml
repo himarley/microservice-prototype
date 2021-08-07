@@ -10,7 +10,7 @@ services:
       - "${PORT_WEB_UI-8085}:${PORT_WEB_UI-8085}"
     environment:
       - SERVICES=${SERVICES- }
-      - DEBUG=1
+      - DEBUG=0
       - DATA_DIR=${DATA_DIR- }
       - PORT_WEB_UI=${PORT_WEB_UI- }
       - LAMBDA_EXECUTOR=docker
