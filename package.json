@@ -8,7 +8,9 @@
   "devDependencies": {
     "eslint": "^7.26.0",
     "eslint-config-airbnb": "^18.2.1",
-    "serverless-localstack": "^0.4.32"
+    "nodemon": "^2.0.12",
+    "serverless-localstack": "^0.4.32",
+    "serverless-webpack": "^5.5.1"
   },
   "dependencies": {
     "serverless": "^2.52.1"

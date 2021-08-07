@@ -1,13 +1,13 @@
 
 const fs = require('fs');
 
-const dynamoDB = require('@himarley/common/aws-sdk/clients/dynamodb').createCustomClient({isLocal: true})
-const docClient = require('@himarley/common/aws-sdk/clients/dynamodb').createDocumentClient({isLocal: true})
+const dynamoDB = require('@himarley/common/aws-sdk/clients/dynamodb').createCustomClient({localOverride: true})
+const docClient = require('@himarley/common/aws-sdk/clients/dynamodb').createDocumentClient({localOverride: true})
 
 const loadSeedFile = () => {
   // we could eventually support yaml or json if so desired
   const seedFileType = '.js'
-  const seedFilePath = `${process.env.PWD}/src/db/seed${seedFileType}`
+  const seedFilePath = `${process.env.PWD}/src/seed${seedFileType}`
   let seedData;
   if (fs.existsSync(seedFilePath)) {
     seedData = require(seedFilePath)

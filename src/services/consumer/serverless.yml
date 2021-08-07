@@ -1,6 +1,6 @@
-service: phone-connector
+service: lsdemo-consumer
 
-frameworkVersion: ">=1.1.0"
+frameworkVersion: ">=2.4.0"
 
 projectDir: ../../
 
@@ -24,31 +24,29 @@ custom:
     includeModules: true ## Node modules configuration for packaging - needed by hot reloading
     keepOutputDirectory: true ## Output data directory (.webpack) and content must be retained - needed by hot reloading
   localstack:
-    debug: true
     stages:
       - local
     lambda:
       mountCode: true
-    autostart: true
 
 functions:
-  send-sms:
-    handler: src/handler.sendSMS
-  test:
-    handler: src/handler.test1
-  hello:
-    handler: src/handler.hello
+  direct-invoke:
+    handler: src/handler.direct
+  queue-invoke:
+    handler: src/handler.queue
+    events:
+      - sqs: ${ssm:lsdemo-my-sqs-queue-arn}
 
 resources:
   Resources:
-    phonesDB:
+    myDynamoTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: phones
+        TableName: my-dynamo-table
         BillingMode: PAY_PER_REQUEST
         AttributeDefinitions:
-          - AttributeName: number
+          - AttributeName: eventId
             AttributeType: S
         KeySchema:
-          - AttributeName: number
+          - AttributeName: eventId
             KeyType: HASH

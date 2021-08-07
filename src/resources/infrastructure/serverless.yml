@@ -1,0 +1,115 @@
+service: lsdemo-infrastructure
+frameworkVersion: ">=2.40.0"
+
+plugins:
+  - serverless-localstack
+
+custom:
+  stage: ${opt:stage, 'local'}
+  localstack:
+    stages:
+      - local
+
+provider:
+  name: aws
+  # TOOD: figure out S3 deployment
+  # deploymentBucket: ${ssm:s3-serverless-deployment}
+  stackTags:
+      COMMIT_SHA: ${env:COMMIT_SHA, 'NO-SHA'}
+
+resources:
+  Resources:
+    MySqsQueue:
+      Type: AWS::SQS::Queue
+      Properties:
+        ContentBasedDeduplication: true
+        # DelaySeconds: Integer
+        FifoQueue: true
+        # KmsDataKeyReusePeriodSeconds: Integer
+        # KmsMasterKeyId: String
+        # MaximumMessageSize: Integer
+        # MessageRetentionPeriod: Integer
+        # QueueName: String
+        ReceiveMessageWaitTimeSeconds: 0
+        RedrivePolicy:
+          deadLetterTargetArn: !GetAtt errorHandlingQueue.Arn
+          maxReceiveCount: 1
+        #Tags: 
+        # - Tag
+        # VisibilityTimeout: Integer
+    MySqsQueueArn:
+      Type: AWS::SSM::Parameter
+      Properties:
+        Name: lsdemo-my-sqs-queue-arn
+        Type: String
+        Value: !GetAtt MySqsQueue.Arn
+        Description: the ARN of the SQS queue used for outbound messages
+    MySqsQueueUrl:
+      Type: AWS::SSM::Parameter
+      Properties:
+        Name: lsdemo-my-sqs-queue-name
+        Type: String
+        Value: !Ref MySqsQueue
+        Description: the URL of the queue
+        MySqsQueueUrl:
+    MySqsQueueName:
+      Type: AWS::SSM::Parameter
+      Properties:
+        Name: lsdemo-my-sqs-queue-name
+        Type: String
+        Value: !GetAtt MySqsQueue.Name
+        Description: the name of the SQS queue used for outbound messages
+    # Sqs Queue for failed messages
+    errorHandlingQueue:
+      Type: AWS::SQS::Queue
+      # Define the SNS topic
+    MySnsTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        # Subscribes the SQS queue to the SNS topic
+        Subscription:
+          - Protocol: sqs
+            Endpoint: !GetAtt MySqsQueue.Arn
+    MySnsTopicArn:
+      Type: AWS::SSM::Parameter
+      Properties:
+        Name: lsdemo-my-sns-topic-arn
+        Type: String
+        Value: !Ref MySnsTopic
+    # Policy allows SNS to publish to this SQS queue
+    SnsToSqsPolicy:
+      Type: AWS::SQS::QueuePolicy
+      Properties:
+        PolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            - Sid: "Allow SNS publish to SQS"
+              Effect: Allow
+              Principal: 
+                Service: "sns.amazonaws.com"
+              Resource: !GetAtt MySqsQueue.Arn
+              Action: SQS:SendMessage
+              Condition:
+                ArnEquals:
+                  aws:SourceArn: !Ref MySnsTopic
+        Queues:
+          - Ref: MySqsQueue
+
+  Outputs:
+    MySqsQueueName:
+      Description: SQS queue name
+      Value: !GetAtt MySqsQueue.QueueName
+    MySqsQueueArn:
+      Description: SQS queue ARN
+      Value: !GetAtt MySqsQueue.Arn
+    MySqsQueueURL:
+      Description: SQS queue URL
+      Value: !Ref MySqsQueue
+    MySnsTopicName:
+      Description: SNS topic name
+      Value: !GetAtt MySnsTopic.TopicName
+    MySnsTopicArn:
+      Description: SNS topic ARN
+      Value: !Ref MySnsTopic
+
+
