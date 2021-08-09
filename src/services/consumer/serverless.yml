@@ -11,8 +11,8 @@ plugins:
 provider:
   name: aws
   runtime: nodejs14.x
-  # TODO: handle deployment bucket in local
-  # deploymentBucket: ${ssm:s3-serverless-deployment}
+  deploymentBucket:
+    name: ${ssm:s3-serverless-deployment,"local-marley-sls-deployments"}
   stage: ${opt:stage, 'local'}
   lambdaHashingVersion: 20201221
   environment:

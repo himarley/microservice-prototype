@@ -12,10 +12,10 @@ custom:
 
 provider:
   name: aws
-  # TOOD: figure out S3 deployment
-  # deploymentBucket: ${ssm:s3-serverless-deployment}
+  deploymentBucket:
+    name: ${ssm:s3-serverless-deployment,"local-marley-sls-deployments"}
   stackTags:
-      COMMIT_SHA: ${env:COMMIT_SHA, 'NO-SHA'}
+    COMMIT_SHA: ${env:COMMIT_SHA, 'NO-SHA'}
 
 resources:
   Resources:
@@ -34,7 +34,7 @@ resources:
         RedrivePolicy:
           deadLetterTargetArn: !GetAtt errorHandlingQueue.Arn
           maxReceiveCount: 1
-        #Tags: 
+        #Tags:
         # - Tag
         # VisibilityTimeout: Integer
     MySqsQueueArn:
@@ -85,7 +85,7 @@ resources:
           Statement:
             - Sid: "Allow SNS publish to SQS"
               Effect: Allow
-              Principal: 
+              Principal:
                 Service: "sns.amazonaws.com"
               Resource: !GetAtt MySqsQueue.Arn
               Action: SQS:SendMessage
@@ -111,5 +111,3 @@ resources:
     MySnsTopicArn:
       Description: SNS topic ARN
       Value: !Ref MySnsTopic
-
-
