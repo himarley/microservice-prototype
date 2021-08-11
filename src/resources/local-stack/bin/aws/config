@@ -1,3 +1,0 @@
-[profile local]
-region = us-east-1
-cli_follow_urlparam = false
