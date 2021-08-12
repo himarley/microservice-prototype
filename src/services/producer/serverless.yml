@@ -12,7 +12,7 @@ provider:
   name: aws
   runtime: nodejs14.x
   deploymentBucket:
-    name: ${ssm:s3-serverless-deployment,"local-marley-sls-deployments"}
+    name: ${ssm:s3-serverless-deployment}
   stage: ${opt:stage, 'local'}
   lambdaHashingVersion: 20201221
   environment:

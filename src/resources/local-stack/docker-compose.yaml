@@ -15,8 +15,10 @@ services:
       - INIT_SCRIPTS_PATH=/init
       - LAMBDA_EXECUTOR=docker
       - LAMBDA_REMOTE_DOCKER=false
+      - HOST_TMP_FOLDER=/tmp/localstack
       - AWS_ACCESS_KEY_ID=foo 
       - AWS_SECRET_ACCESS_KEY=bar
+      - AWS_DEFAULT_REGION=us-east-1
     volumes:
       - "${PWD}/.localstack:/tmp/localstack"
       - "${PWD}/bin/bootstrap.sh:/init/bootstrap.sh"

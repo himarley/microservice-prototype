@@ -13,7 +13,7 @@ custom:
 provider:
   name: aws
   deploymentBucket:
-    name: ${ssm:s3-serverless-deployment,"local-marley-sls-deployments"}
+    name: ${ssm:s3-serverless-deployment}
   stackTags:
     COMMIT_SHA: ${env:COMMIT_SHA, 'NO-SHA'}
 
