@@ -1,22 +1,25 @@
 version: "3.9"
-
 services:
   localstack:
-    image: localstack/localstack
+    container_name: "localstack"
+    image: localstack/localstack:0.12.16
+    restart: "on-failure"
     network_mode: bridge
     ports:
       - "4566:4566"
       - "4571:4571"
-      - "${PORT_WEB_UI-8085}:${PORT_WEB_UI-8085}"
     environment:
-      - SERVICES=${SERVICES- }
+      - SERVICES=lambda,s3,dynamodb,sns,sqs,ssm,apigateway,cloudformation,cloudwatch,sts,iam,events
       - DEBUG=0
-      - DATA_DIR=${DATA_DIR- }
-      - PORT_WEB_UI=${PORT_WEB_UI- }
+      - DATA_DIR=/tmp/localstack/data
+      - INIT_SCRIPTS_PATH=/init
       - LAMBDA_EXECUTOR=docker
       - LAMBDA_REMOTE_DOCKER=false
-      - KINESIS_ERROR_PROBABILITY=${KINESIS_ERROR_PROBABILITY- }
-      - DOCKER_HOST=unix:///var/run/docker.sock
+      - HOST_TMP_FOLDER=/tmp/localstack
+      - AWS_ACCESS_KEY_ID=foo 
+      - AWS_SECRET_ACCESS_KEY=bar
+      - AWS_DEFAULT_REGION=us-east-1
     volumes:
-      - "${TMPDIR:-/tmp/localstack}:/tmp/localstack"
-      - /var/run/docker.sock:/var/run/docker.sock
+      - "${PWD}/.localstack:/tmp/localstack"
+      - "${PWD}/bin/bootstrap.sh:/init/bootstrap.sh"
+      - /var/run/docker.sock:/var/run/docker.sock      

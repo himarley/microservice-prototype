@@ -11,8 +11,8 @@ plugins:
 provider:
   name: aws
   runtime: nodejs14.x
-  # TODO: handle deployment bucket in local
-  # deploymentBucket: ${ssm:s3-serverless-deployment}
+  deploymentBucket:
+    name: ${ssm:s3-serverless-deployment}
   stage: ${opt:stage, 'local'}
   lambdaHashingVersion: 20201221
   environment:
@@ -33,7 +33,8 @@ custom:
 
 functions:
   direct:
-    handler: src/handler.direct
+    handler:
+      src/handler.direct
       # TODO: test invoke, with URL pattern: ENDPOINT=http://localhost:4566/restapis/${API_ID}/${STAGE}/_user_request_/direct-invoke
     events:
       - http:
