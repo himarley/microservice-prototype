@@ -28,8 +28,8 @@ custom:
   localstack:
     stages:
       - local
-    lambda:
-      mountCode: true
+    # lambda:
+    #   mountCode: true
 
 functions:
   direct:

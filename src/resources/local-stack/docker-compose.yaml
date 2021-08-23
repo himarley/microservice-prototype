@@ -5,16 +5,22 @@ services:
     image: localstack/localstack:0.12.16
     restart: "on-failure"
     network_mode: bridge
+    # network_mode: host
     ports:
       - "4566:4566"
       - "4571:4571"
+      - "9229:9229"
     environment:
       - SERVICES=lambda,s3,dynamodb,sns,sqs,ssm,apigateway,cloudformation,cloudwatch,sts,iam,events
-      - DEBUG=0
+      - DEBUG=1
       - DATA_DIR=/tmp/localstack/data
       - INIT_SCRIPTS_PATH=/init
-      - LAMBDA_EXECUTOR=docker
+      - LAMBDA_EXECUTOR=local
+      # - LAMBDA_EXECUTOR=docker-reuse
       - LAMBDA_REMOTE_DOCKER=false
+      # - LAMBDA_DOCKER_FLAGS=--network=host
+      # - LAMBDA_CONTAINER_REGISTRY=mashimine/node
+      # - LAMBDA_CONTAINER_REGISTRY=mashimine/test
       - HOST_TMP_FOLDER=/tmp/localstack
       - AWS_ACCESS_KEY_ID=foo 
       - AWS_SECRET_ACCESS_KEY=bar
