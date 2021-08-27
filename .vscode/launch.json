@@ -1,0 +1,24 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "attach",
+      "name": "lambda",
+      "port": 9230,
+      "localRoot": "${workspaceFolder}",
+      "remoteRoot": "/var/task",
+      "restart": true,
+      "soruceMaps": true,
+      "skipFiles": [
+        "<node_internals>/**",
+        "/var/runtime/**",
+        "**/node_modules/**"
+      ],
+      "continueOnAttach": false
+    },
+  ]
+}
