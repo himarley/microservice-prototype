@@ -19,7 +19,7 @@ services:
       - AWS_ACCESS_KEY_ID=foo 
       - AWS_SECRET_ACCESS_KEY=bar
       - AWS_DEFAULT_REGION=us-east-1
-      - LAMBDA_DOCKER_FLAGS=-e NODE_OPTIONS=--inspect-brk=0.0.0.0:9230 -p 9230:9230
+      - LAMBDA_DOCKER_FLAGS=-e NODE_OPTIONS=--inspect-brk=0.0.0.0:9230 -p 9230-9231:9230 -e AWS_LAMBDA_FUNCTION_TIMEOUT=600
     volumes:
       - "${PWD}/.localstack:/tmp/localstack"
       - "${PWD}/bin/bootstrap.sh:/init/bootstrap.sh"

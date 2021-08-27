@@ -7,18 +7,34 @@
     {
       "type": "node",
       "request": "attach",
-      "name": "lambda",
+      "name": "lambda-1",
       "port": 9230,
       "localRoot": "${workspaceFolder}",
       "remoteRoot": "/var/task",
       "restart": true,
-      "soruceMaps": true,
+      "sourceMaps": true,
       "skipFiles": [
         "<node_internals>/**",
         "/var/runtime/**",
         "**/node_modules/**"
       ],
-      "continueOnAttach": false
+      "continueOnAttach": true
+    },
+    {
+      "type": "node",
+      "request": "attach",
+      "name": "lambda-2",
+      "port": 9231,
+      "localRoot": "${workspaceFolder}",
+      "remoteRoot": "/var/task",
+      "restart": true,
+      "sourceMaps": true,
+      "skipFiles": [
+        "<node_internals>/**",
+        "/var/runtime/**",
+        "**/node_modules/**"
+      ],
+      "continueOnAttach": true
     },
   ]
 }

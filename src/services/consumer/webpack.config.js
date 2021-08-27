@@ -9,7 +9,8 @@ module.exports = {
   optimization: {
     minimize: false,
   },
-  devtool: 'inline-source-map',
+  // TODO: this is the most expensive source map to build but seems to be the only one that works reliably in the debugger...
+  devtool: 'eval-source-map',
   output: {
       libraryTarget: 'commonjs',
       path: path.resolve(__dirname, '.webpack'),
