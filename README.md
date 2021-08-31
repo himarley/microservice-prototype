@@ -31,11 +31,21 @@ here is an overview of the service architecture in this demo.
 
 ## Hot reloading
 
+the services in this repo support hot reloading whereby code changes are immediately propogating out to the localstack lambda service.
+
 1. to deploy and use hot reloading (nodemon) locally, cd into one of the two services and run: `npm run start`
 
 **NOTE:** needs `setup steps` prior using hot reloading
 
 note: you can actually deploy these stacks to AWS by removing `stage --local` from the deploy and invoke commands above
+
+## Debug
+
+for the purposes of demoing debug capabilities, the nodejs lambda containers are spun up by local stack with the `--inspect-brk` flag, which will pause the lambda container until a debugger is connected.  The included vs code project includes debug configurations to connect to these lambdas.  In this initial configuration, up to two lambda containers can exist simultaneously and they will be exposed for debug on ports 9230 and 9231.  As lambda containers are spun up and destroyed, they will repurpse these two ports, so the developer needs to maintain a connection on both ports to keep lambdas executing.  Luckily, this is simple using the provided debug configuration as it will continue to reconnect after the initial connection is made.
+
+- trigger a lamdba container using the above instructions.  the container will pause and wait for the connection
+- using the vs code IDE, connect to the process and debug as needed.
+
 ## TODO
 
 - script wrappers?
