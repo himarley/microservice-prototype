@@ -1,0 +1,40 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "attach",
+      "name": "lambda-1",
+      "port": 9230,
+      "localRoot": "${workspaceFolder}",
+      "remoteRoot": "/var/task",
+      "restart": true,
+      "sourceMaps": true,
+      "skipFiles": [
+        "<node_internals>/**",
+        "/var/runtime/**",
+        "**/node_modules/**"
+      ],
+      "continueOnAttach": true
+    },
+    {
+      "type": "node",
+      "request": "attach",
+      "name": "lambda-2",
+      "port": 9231,
+      "localRoot": "${workspaceFolder}",
+      "remoteRoot": "/var/task",
+      "restart": true,
+      "sourceMaps": true,
+      "skipFiles": [
+        "<node_internals>/**",
+        "/var/runtime/**",
+        "**/node_modules/**"
+      ],
+      "continueOnAttach": true
+    },
+  ]
+}
